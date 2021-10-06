@@ -5,6 +5,7 @@ import com.myedu.service.StudentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,16 +18,17 @@ public class StudentResource {
     @Autowired
     StudentService studentService;
 
+    @Value("${config.value:defaultValue}")
+    private String configMessage;
+
     @RequestMapping("/student")
-    public StudentResponse getStudent(){
-       return studentService.getStudentResponse();
+    public StudentResponse getStudent() {
+        logger.info("getting student response call initiated from controller...");
+        StudentResponse response  = studentService.getStudentResponse();
+        logger.info("getting student response call completed!");
+        logger.info("---- CONFIG MESSAGE--- "+configMessage);
+       return response;
     }
-
-    @RequestMapping("/envo-details")
-    public String getEnvoDetails() {
-        return studentService.getEnvironmentDetails();
-    }
-
 
 
 }

@@ -2,6 +2,9 @@ package com.myedu.resource;
 
 import com.myedu.model.Department;
 import com.myedu.response.DepartmentResponse;
+import com.myedu.service.DepartmentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,29 +19,28 @@ import java.util.List;
 @RequestMapping("/department")
 public class DepartmentResource {
 
+    Logger logger = LoggerFactory.getLogger(DepartmentResource.class);
+
     @Autowired
     Environment environment;
 
+    @Autowired
+    DepartmentService service;
+
     @RequestMapping({"/","all"})
     public DepartmentResponse getAllDepartments(){
-        List<Department> departments = Arrays.asList(
-                new Department(1,"Software Engineering","MUET Jamshoro"),
-                new Department(2,"Civil Engineering","MUET Khairpur"),
-                new Department(3,"Mining Engineering","NED Karachi"),
-                new Department(4,"Mechanical Engineering","MUET Jamshoro")
-                );
-        return new DepartmentResponse(departments);
+        logger.info("getting all departments call initiated from controller...");
+        DepartmentResponse response = service.getAllDepartments();
+        logger.info("getting all departments call completed!");
+        return response;
     }
 
     @RequestMapping("/{id}")
     public Department getDepartmentById(@PathVariable("id") Integer deptId){
-        List<Department> departments = Arrays.asList(
-                new Department(1,"Software Engineering","MUET Jamshoro"),
-                new Department(2,"Civil Engineering","MUET Khairpur"),
-                new Department(3,"Mining Engineering","NED Karachi"),
-                new Department(4,"Mechanical Engineering","MUET Jamshoro")
-        );
-        return departments.stream().filter(department -> department.getId()==deptId).findFirst().get();
+        logger.info("get department with id call initiated from controller...");
+        Department response = service.getDepartmentById(deptId);
+        logger.info("get department with id call completed!");
+        return response;
     }
 
     @RequestMapping("/environment-details")
