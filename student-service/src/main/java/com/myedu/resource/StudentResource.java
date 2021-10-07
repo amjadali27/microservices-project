@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
+@RequestMapping("/student")
 public class StudentResource {
 
     Logger logger = LoggerFactory.getLogger(StudentResource.class);
@@ -18,15 +19,15 @@ public class StudentResource {
     @Autowired
     StudentService studentService;
 
-    @Value("${config.value:defaultValue}")
-    private String configMessage;
+//    @Value("${config.value:defaultValue}")
+//    private String configMessage;
 
-    @RequestMapping("/student")
+    @RequestMapping("/get")
     public StudentResponse getStudent() {
         logger.info("getting student response call initiated from controller...");
         StudentResponse response  = studentService.getStudentResponse();
         logger.info("getting student response call completed!");
-        logger.info("---- CONFIG MESSAGE--- "+configMessage);
+//        logger.info("---- CONFIG MESSAGE--- "+configMessage);
        return response;
     }
 
